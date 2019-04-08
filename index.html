@@ -50,7 +50,7 @@
                 if(username != '' && password != ''){
                     $.ajax({
                         url : 'ajax_request.php',
-                        method : 'POST',
+                        method : 'GET',
                         data : {action:'form-validation',username : username,password : password},
                         dataType : 'html',
                         success : function(response){
@@ -119,7 +119,7 @@
                                             url : 'ajax_request.php',
                                             data : {query:query,action:'signup_username_suggest'},
                                             dataType : 'HTML',
-                                            method : 'POST',
+                                            method : 'GET',
                                             success : function(response){
                                                 $("#signup_username_query").html(response);
                                                 if(response == "<span class='text-danger'>Username not available</span>"){
