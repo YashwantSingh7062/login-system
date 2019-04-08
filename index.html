@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  
+   <!-- Login Form -->
+<div class="login_form">
+   <div class="login_card text-center text-light">
+       <form action="#" method="post">
+         <div class="user-icon-div"><i class="fas fa-user user-icon" ></i></div>
+         <div class="ajax-call-return"></div>
+          <div class="form-group">
+              <input type="text" name="username" id="username" placeholder="Username" autocomplete="off">
+          </div>
+          <div class="form-group">
+              <input type="password" name="password" id="password" placeholder="Password">
+          </div>
+          <div class="form-group mt-4">
+              <input type="submit" name="login_submit" class="btn btn-info btn-block" value="Submit">
+          </div>
+           <a href="#" data-toggle="model">Forgot Password?</a>
+           <hr>
+           Didn't have an account?<a href="#signup_modal" data-toggle="modal"> Sign up</a>
+       </form> 
+   </div> 
+</div>
+<script>
+    $(document).ready(function(){
+       $("#username,#password").on({
+           focus : function(){
+                $(this).css("font-size","25px"); 
+            },
+           blur : function(){
+               $(this).css("font-size","15px");
+           }
+       });
+        
+        $("input[type='submit']").on({
+            click : function(event){
+                let username = $("#username").val();
+                let password = $("#password").val();
+                let ajax_call_return = $(".ajax-call-return");
+                if(username != '' && password != ''){
+                    $.ajax({
+                        url : 'ajax_request.php',
+                        method : 'POST',
+                        data : {action:'form-validation',username : username,password : password},
+                        dataType : 'html',
+                        success : function(response){
+                            ajax_call_return.html(response);
+                        }
+                    });
+                    event.preventDefault();
+                }
+                else{
+                    event.preventDefault();
+                    ajax_call_return.html(`<span class='text-danger'>Username or Password shouldn't be empty.</span>`);
+                }
+            }
+        });
+    });
+</script>
+    
+<!-- Signup Model -->
+<div class="modal" id="signup_modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-sign-in-alt"></i> SIGN UP</h3>
+            <span class="close" data-dismiss="modal">&times;</span>
+        </div>
+        <div class="modal-body">
+           <form action="process.php?action=signup_submit" method="post" enctype="multipart/form-data">
+               <div class="row">
+                    <div class="col-md-3 col-sm-12 text-center">
+                        <input type="file" accept="image/jpg,image/png,image/jpeg" name="signup_profile_image" id="signup_profile_image" onchange="loadImage(event)" required style="outline:none;"><br>
+                        <span class="text-muted"><i class="fas fa-upload"></i> formet-jpg,png,jpeg.</span><br><br>
+                        <label for="signup_profile_image"><img src="images/header_images/signup_modal_images/user_dummy1.png" alt="profile_dummy" height="150px" width="150px" class="mt-3" style="border-radius:50%;cursor:pointer;" title="Profile Image" id="output_profile_image"></label>
+                    </div>
+                    <script>
+                        function loadImage(event){                              
+                          document.querySelector("#output_profile_image").src=URL.createObjectURL(event.target.files[0]);
+                        }
+                   </script>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="row">
+                            <div class="col">
+                               <div class="form-group">
+                                   <label for="signup_firstname">First Name:</label>
+                                    <input type="text" name="signup_firstname" id="signup_firstname" class="form-control" placeholder="First Name" required>
+                               </div>
+                            </div>
+                            <div class="col">
+                               <div class="form-group">
+                                   <label for="signup_lastname">Last Name:</label>
+                                    <input type="text" name="signup_lastname" id="signup_lastname" class="form-control" placeholder="Last Name" required>
+                               </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup_username">Choose Your Username:</label>
+                            <input type="text" class="form-control" name="signup_username" id="signup_username" placeholder="Example: Yashwant Singh" autocomplete="off" required>
+                            <div id="signup_username_query"></div>
+                            <div id="signup_username_suggest"></div>
+                        </div>
+                        <script>
+                            $(document).ready(function(){
+                               $("#signup_username").on({
+                                  keyup : function(){
+                                      if($("#signup_username").val().length > 1){
+                                         var query = $(this).val();
+                                          $.ajax({
+                                            url : 'ajax_request.php',
+                                            data : {query:query,action:'signup_username_suggest'},
+                                            dataType : 'HTML',
+                                            method : 'POST',
+                                            success : function(response){
+                                                $("#signup_username_query").html(response);
+                                                if(response == "<span class='text-danger'>Username not available</span>"){
+                                                    $("#signup_username_suggest").html(`<span class="text-muted">Suggestion : ${query}${Math.ceil(Math.random()*300)}</span>`);
+                                                }
+                                                else{
+                                                    $("#signup_username_suggest").html("");
+                                                }
+                                            }
+                                        }); 
+                                      } 
+                                      else{
+                                          $("#signup_username_query").html("");
+                                      }
+                                   } 
+                                }); 
+                             });
+                        </script>
+                        <div class="form-group">
+                            <label for="signup_password">Create a Password:</label>
+                            <div class="input-group">
+                               <input type="password" class="form-control" name="signup_password" id="signup_password" required>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-eye"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup_password_confirm">Confirm Your Password:</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="signup_password_confirm" id="signup_password_confirm" required>
+                                
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-eye"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <script>
+                            $(document).ready(function(){
+                               $($("#signup_password,#signup_password_confirm").siblings()).on({
+                                   click : function(){
+                                        if($(this).siblings().attr("type") == "password"){
+                                            $($(this).children().children()).addClass("fa-eye-slash").removeClass("fa-eye");
+                                            $(this).siblings().attr("type","text");
+                                        }
+                                       else{
+                                            $($(this).children().children()).addClass("fa-eye").removeClass("fa-eye-slash");
+                                           $(this).siblings().attr("type","password");
+                                       }
+                                    }
+                               }); 
+                            });
+                        </script>
+                        <div class="form-group">
+                            <label for="signup_mobile_number">Mobile Number:</label>
+                            <input type="text" class="form-control" id="signup_mobile_number" value="" name="singup_mobile_number" placeholder="Mobile Number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup_email">Email:</label>
+                            <input type="email" name="signup_email" id="signup_email" class="form-control" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup_birthday">Birthday:</label>
+                            <input type="date" name="signup_birthday" id="signup_birthday" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                           <label for="signup_gender">Gender:</label>
+                            <select class="form-control" id="signup_gender" name="signup_gender" required>
+                                <option value="0" disabled selected>Select</option>
+                                <option vlaue="1">Male</option>
+                                <option value="2">Female</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-info btn-block" name="signup_submit">SUBMIT</button>
+                        <script>
+                            $(document).ready(function(){
+                               $("button[name='signup_submit']").click(function(event){
+                                   var singup_password_value = String($("#signup_password").val());
+                                   var signup_password_confirm_value = String($("#signup_password_confirm").val());
+                                   if(singup_password_value != signup_password_confirm_value){
+                                       event.preventDefault();
+                                       alert("Password Didn't Match");
+                                   }
+                                   else if($("#signup_username_suggest").html() == '<span class="text-danger">Username not available</span>'){
+                                       event.preventDefault();
+                                       alert("Username not available");
+                                   }
+                                   else if($("#signup_gender").val() == null ){
+                                       event.preventDefault();
+                                       alert("Select Gender");
+                                   } 
+                               });
+                            });
+                        </script>
+                    </div>
+                    <div class="col-3"></div>
+               </div>
+           </form>
+            
+        </div>
+        <div class="modal-footer">
+            <p class="lead">&copy;2018 yashwantsingh.com | All Right Reserved</p>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
