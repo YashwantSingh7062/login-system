@@ -4,7 +4,7 @@ if(isset($_POST['action'])){
 // Validating form data
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if($_POST['action'] == "form-validation"){
-        // This validation can also be made by validating data from the database.
+        // This validation can also be done by validating data from the database.
         $valid_username = "yashwant";
         $valid_password = "12345";
         $username = $_POST['username'];
