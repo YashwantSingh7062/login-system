@@ -1,14 +1,14 @@
 <?php
-if(isset($_POST['action'])){
+if(isset($_GET['action'])){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Validating form data
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    if($_POST['action'] == "form-validation"){
+    if($_GET['action'] == "form-validation"){
         // This validation can also be done by validating data from the database.
         $valid_username = "yashwant";
         $valid_password = "12345";
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $username = $_GET['username'];
+        $password = $_GET['password'];
         
         if($username == $valid_username && $password == $valid_password){
             echo "<span class='text-success'>You are logged in.</span>";
@@ -20,8 +20,8 @@ if(isset($_POST['action'])){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Checking if username is available or not
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    else if($_POST['action'] == 'signup_username_suggest'){
-        if($_POST['query'] == "yashwant"){
+    else if($_GET['action'] == 'signup_username_suggest'){
+        if($_GET['query'] == "yashwant"){
             echo "<span class='text-danger'>Username not available</span>";
         }
         else{
