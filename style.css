@@ -3,21 +3,18 @@
     padding:0px;
     box-sizing:border-box;
 }
-body{
-    width:100vw;
-    height:100vh;
-}
 .login_form{
     width:100vw;
     height:100vh;
     background:linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)),url('https://images.unsplash.com/photo-1510519138101-570d1dca3d66?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1031&q=80');
+    background-position:fixed;
     background-size:cover;
     background-position:center;
 }
 .login_card{
     height:auto;
     width:400px;
-    position:relative;
+    position:absolute;
     top:50%;
     left:50%;
     transform:translate(-50%,-50%);
@@ -39,7 +36,7 @@ body{
 }
 .user-icon{
     font-size:58px;
-    line-height:98px;
+    line-height:100px;
     color:#00d8d6;
 }
 #username,
