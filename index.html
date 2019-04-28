@@ -27,8 +27,8 @@
               <input type="submit" name="login_submit" class="btn btn-info btn-block" value="Submit">
           </div>
            <a href="#" data-toggle="model">Forgot Password?</a>
-           <hr>
-           Didn't have an account?<a href="#signup_modal" data-toggle="modal"> Sign up</a>
+           <br>
+           <div class="mt-3">Didn't have an account?<a href="#signup_modal" data-toggle="modal"> Sign up</a></div>
        </form> 
    </div> 
 </div>
@@ -51,7 +51,7 @@
                 if(username != '' && password != ''){
                     $.ajax({
                         url : 'ajax_request.php',
-                        method : 'GET',
+                        method : 'POST',
                         data : {action:'form-validation',username : username,password : password},
                         dataType : 'html',
                         success : function(response){
@@ -85,8 +85,7 @@
                         <label for="signup_profile_image"><img src="images/header_images/signup_modal_images/user_dummy1.png" alt="profile_dummy" height="150px" width="150px" class="mt-3" style="border-radius:50%;cursor:pointer;" title="Profile Image" id="output_profile_image"></label>
                     </div>
                     <script>
-                        function loadImage(event){                              
-                          document.querySelector("#output_profile_image").src=URL.createObjectURL(event.target.files[0]);
+                        function loadImage(event){                              document.querySelector("#output_profile_image").src=URL.createObjectURL(event.target.files[0]);
                         }
                    </script>
                     <div class="col-md-6 col-sm-12">
@@ -120,7 +119,7 @@
                                             url : 'ajax_request.php',
                                             data : {query:query,action:'signup_username_suggest'},
                                             dataType : 'HTML',
-                                            method : 'GET',
+                                            method : 'POST',
                                             success : function(response){
                                                 $("#signup_username_query").html(response);
                                                 if(response == "<span class='text-danger'>Username not available</span>"){
